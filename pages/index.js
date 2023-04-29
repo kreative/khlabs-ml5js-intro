@@ -13,7 +13,7 @@ export default function Home() {
           News Sentiment Analyzer by Guppy
         </h1>
         <h2 className={"pb-12 text-xl text-center font-base text-gray-500"}>
-          Let&apos;s see what the world things about your topic!
+          Let&apos;s see what the world thinks about your topic!
         </h2>
         <div className={"w-2/3 md:w-1/2 lg:1/3"}>
           <Input />
