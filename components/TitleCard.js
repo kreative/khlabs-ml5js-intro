@@ -6,7 +6,7 @@ export default function TitleCard(props) {
       <div>
         <span
           className={
-            "p-2 text-blue-600 bg-blue-200 text-md font-medium rounded-lg"
+            "p-2 text-purple-600 bg-purple-200 text-md font-medium rounded-lg"
           }
         >
           {props.message}
