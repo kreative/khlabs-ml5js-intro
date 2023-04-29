@@ -15,12 +15,6 @@ export default function Input() {
       return;
     }
 
-    if (input.length < 6) {
-      setLabelColor("text-red-500");
-      setLabel("Please enter a longer topic");
-      return;
-    }
-
     Router.push(`/sentiment?topic=${encodeURI(input)}`);
   };
 
