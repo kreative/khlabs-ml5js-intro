@@ -42,12 +42,24 @@ export default function Index() {
       {!loading && (
         <div>
           <div>
-            <h2 className={"text-4xl font-bold text-center mb-4 text-blue-800"}>
+            <h2
+              className={"text-4xl font-bold text-center mb-4 text-purple-800"}
+            >
               {data.total.sentiment}
             </h2>
-            <p className={"pb-8 text-center text-gray-600"}>
+            <p className={"text-center text-gray-600 pb-4"}>
               ({data.total.score})
             </p>
+            <div className={"text-center pb-8"}>
+              <Link
+                className={
+                  "text-purple-500 hover:text-purple-700 underline text-base"
+                }
+                href="/"
+              >
+                Try another topic
+              </Link>
+            </div>
           </div>
           <div>
             <h2 className={"text-2xl font-bold text-center mb-4 text-gray-800"}>
@@ -69,16 +81,6 @@ export default function Index() {
                   );
                 })}
             </ul>
-          </div>
-          <div className={"text-center"}>
-            <Link
-              className={
-                "text-blue-500 hover:text-blue-700 underline text-base"
-              }
-              href="/"
-            >
-              Try another topic
-            </Link>
           </div>
         </div>
       )}
