@@ -16,13 +16,13 @@ const getArticles = async (topic) => {
 
 const getScoreMessage = (score) => {
   if (score <= 0.1) {
-    return "Very Negative";
-  } else if (score > 0.1 && score < 0.4) {
     return "Negative";
-  } else if (score >= 0.4 && score < 0.6) {
+  } else if (score > 0.1 && score < 0.4) {
     return "Neutral";
-  } else if (score >= 0.6 && score < 0.9) {
+  } else if (score >= 0.4 && score < 0.6) {
     return "Positive";
+  } else if (score >= 0.6 && score < 0.9) {
+    return "Very Positive";
   } else {
     return "Very Positive";
   }
