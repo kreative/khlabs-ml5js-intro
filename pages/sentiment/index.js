@@ -2,57 +2,84 @@ import Link from "next/link";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import TitleCard from "../../components/TitleCard";
 
 export default function Index() {
   const [loading, setLoading] = useState(true);
   const [topic, setTopic] = useState("");
+  const [data, setData] = useState({});
 
-  useEffect(() => {
+  const checkTheFeels = async (encodedTopic) => {
     try {
-      const encodedTopic = window.location.href.split("=")[1];
-      const topic = decodeURI(encodedTopic);
-      setTopic(topic);
-      checkTheFeels(teamName);
+      const res = await axios.get(`/api/sentiment?topic=${encodedTopic}`, {
+        headers: { "Content-Type": "application/json" },
+      });
+      console.log(res.data.data);
+      setData(res.data.data);
+      setLoading(false);
     } catch (error) {
       console.log("Whoops... something went wrong!! (level 1)");
       console.log(error);
     }
-  }, []);
-
-  const checkTheFeels = async (teamName) => {
-    try {
-      const payload = {
-        teamName,
-      };
-      const res = await axios.post("/api/team", JSON.stringify(payload), {
-        headers: { "Content-Type": "application/json" },
-      });
-      setSentiment(res.data);
-      setLoading(false);
-    } catch (error) {
-      console.log("Whoops... something went wrong!! (level 2)");
-      console.log(error);
-    }
   };
 
+  useEffect(() => {
+    const encodedTopic = window.location.href.split("=")[1];
+    setTopic(decodeURI(encodedTopic));
+    checkTheFeels(encodedTopic);
+  }, []);
+
   return (
-    <div>
+    <div className={"max-w-5xl m-auto"}>
       <h1 className={"py-12 text-4xl text-center font-bold"}>
-        Here&apos;s the sentiment about your team
+        Here&apos;s the sentiment about &apos;{topic}&apos;...
       </h1>
       {loading && (
         <p className={"text-md text-gray-500 text-center"}>
-          Checking on all the feels for the {teamName}...
+          Checking on all the feels for the {topic}...
         </p>
       )}
       {!loading && (
         <div>
-          <Link
-            className={"text-blue-500 hover:text-blue-700 underline text-base"}
-            href="/"
-          >
-            Try another team
-          </Link>
+          <div>
+            <h2 className={"text-4xl font-bold text-center mb-4 text-blue-800"}>
+              {data.total.sentiment}
+            </h2>
+            <p className={"pb-8 text-center text-gray-600"}>
+              ({data.total.score})
+            </p>
+          </div>
+          <div>
+            <h2 className={"text-2xl font-bold text-center mb-4 text-gray-800"}>
+              Here are the news titles...
+            </h2>
+            <ul
+              role="list"
+              className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
+              {data &&
+                data.titles.map((title) => {
+                  return (
+                    <TitleCard
+                      key={title.title}
+                      title={title.title}
+                      score={title.score}
+                      message={title.message}
+                    />
+                  );
+                })}
+            </ul>
+          </div>
+          <div className={"text-center"}>
+            <Link
+              className={
+                "text-blue-500 hover:text-blue-700 underline text-base"
+              }
+              href="/"
+            >
+              Try another topic
+            </Link>
+          </div>
         </div>
       )}
     </div>
